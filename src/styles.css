@@ -1,1 +1,46 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~bootstrap/dist/css/bootstrap.min.css";
+
+
+
+
+h1 {
+  color: #369;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 250%;
+}
+h2, h3 {
+  color: #444;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: lighter;
+}
+body {
+  margin: 2em;
+    background-color: #e6eaf2;
+    box-sizing: border-box;
+    font-size: 13px;
+    color: #1f2b30;
+    min-width: 1020px;
+    min-height: 100vh;
+}
+
+body, input[text], button {
+  color: #888;
+  font-family: Cambria, Georgia;
+}
+/* everywhere else */
+* {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+  .Absolute-Center {
+    margin: auto;
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+  }
+  .Absolute-Center.is-Responsive {
+    width: 50%; 
+    height: 50%;
+    min-width: 200px;
+    padding: 40px;
+  }

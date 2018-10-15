@@ -1,20 +1,72 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+<div class="cloud-field">
 
+<div class="wrapper">
+    <!-- Stack the columns on mobile by making one full-width and the other half-width -->
+    <div class="container row">
+        <div class="col-md-4" style="margin-top: 40px" *ngIf="countryDetails">
+            <p class="row" style="padding: 27px;">{{todayDate | date}}</p>
+            <div style="margin-top: 70px">
+                <h1>
+                  {{value(countryDetails?.main?.temp)}}
+                </h1>
+                <p class="text-center">
+                  {{countryDetails?.sys?.country}}
+                </p>
+                <span>
+                    {{countryDetails?.name}}
+                </span>
+             </div> 
+        </div>
+        <div class="col-md-8">
+            <div class="page-header flex-col card" style=" padding: 0px; margin-top: 1rem;">
+                <div style="padding: 20px;" class="top flex-row">
+                    <p>Forecast</p>
+                    <div class="input-group col-sm-8">
+                      <input type="text" [(ngModel)]="searchCity" style="border-radius: 34px;margin-top: -20px;" class="form-control" placeholder="Username" aria-describedby="basic-addon1">
+                    </div>
+                    <p (click)="doSearch(searchCity)" style="cursor: pointer;">search</p>
+                </div>
+                <div class="search-bar flex-row">
+                    <span style="margin-right:20px" *ngFor="let row of weatherInfo;let setindex=index;">
+                        <i *ngIf="row.weather[0].main=='Rain'" class="rain"></i>
+                        <i *ngIf="row.weather[0].main=='Clear'"  class="clear-sky"></i>
+                        <i *ngIf="row.weather[0].main=='Clouds'" class="cloud-sun"></i>
+                        <i *ngIf="row.weather[0].main=='Sun'" class="sun"></i>
+                        {{getDay(setindex)|date:'EEEE'}}
+                      </span>
+                </div>
+                <div class="bottom flex-row" style="margin-top: 11px;">
+                    <ng-container *ngFor="let row of tabInfo;let  setIndex=index">
+                      <a class="listTab" [ngClass]="{
+                                  'active': row.active == true}" [id]="row.value+'_'+setIndex" (click)="changeTab(row)" href="javascript:void(0);">{{row.value}}</a>
+                    </ng-container>
+                </div>
+            </div>
+            <div class="card table">
+                <table class="table table-hover">
+                   <thead>
+                        <tr>
+                            <ng-container *ngFor="let index of listing">
+                                <th>{{index.label}}</th>
+                            </ng-container>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let row of result?.data?.list">
+                           <td  *ngFor="let index of listing">
+                                <ng-container *ngIf="index.id =='dt_txt';else elsetempate">
+                                <ng-container *ngIf="currentTab=='Today'">{{row[index.id]| date:'shortTime'}}</ng-container>
+                                <ng-container *ngIf="currentTab=='Week'">{{row[index.id]| date:'EEE'}}</ng-container>
+                                <ng-container *ngIf="currentTab=='Month'">{{row[index.id]| date:'MMM'}}</ng-container>
+                              </ng-container>
+                              <ng-template #elsetempate>
+                                {{row.main[index.id]}}
+                              </ng-template>
+                           </td>
+                        </tr>
+                   </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
